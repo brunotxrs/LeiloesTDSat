@@ -134,20 +134,44 @@ public class listagemVIEW extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
-        String id = id_produto_venda.getText();
-        
-        ProdutosDAO produtosdao = new ProdutosDAO();
-        
-        //produtosdao.venderProduto(Integer.parseInt(id));
+        int id = -1;
+    
+        // Tenta pegar o ID do campo de texto
+        String idTexto = id_produto_venda.getText().trim();
+        if (!idTexto.isEmpty()) {
+            try {
+                id = Integer.parseInt(idTexto);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "ID inválido!");
+                return;
+            }
+        }
+
+        // Se não digitou ID, tenta pegar da linha selecionada
+        if (id == -1) {
+            int linhaSelecionada = listaProdutos.getSelectedRow();
+            if (linhaSelecionada == -1) {
+                JOptionPane.showMessageDialog(null, "Selecione um produto ou digite o ID para vender!");
+                return;
+            }
+            id = (int) listaProdutos.getValueAt(linhaSelecionada, 0);
+        }
+
+        ProdutosDAO dao = new ProdutosDAO();
+        dao.venderProduto(id);
+
+        // Limpar campo e atualizar listagem
+        id_produto_venda.setText("");
         listarProdutos();
     }//GEN-LAST:event_btnVenderActionPerformed
 
     private void btnVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVendasActionPerformed
-        //vendasVIEW vendas = new vendasVIEW(); 
-        //vendas.setVisible(true);
+        vendasVIEW vendas = new vendasVIEW();
+        vendas.setVisible(true);
     }//GEN-LAST:event_btnVendasActionPerformed
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
