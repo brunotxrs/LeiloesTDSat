@@ -142,7 +142,7 @@ public class cadastroVIEW extends javax.swing.JFrame {
     }//GEN-LAST:event_cadastroNomeActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        /*    String nome = cadastroNome.getText().trim();
+        String nome = cadastroNome.getText().trim();
         String valor = cadastroValor.getText().trim();
         
         if (nome.isEmpty() || valor.isEmpty()) {
@@ -160,7 +160,7 @@ public class cadastroVIEW extends javax.swing.JFrame {
         
         // Limpar campos
         cadastroNome.setText("");
-        cadastroValor.setText("");*/
+        cadastroValor.setText("");
         
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
