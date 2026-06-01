@@ -69,10 +69,11 @@ public class ProdutosDAO {
         return listagem;
     }
     
-    // VENDER PRODUTO (atualizar status)
+    // VENDER PRODUTO (atualizar status para "Vendido")
     public void venderProduto(int id) {
-        conn = new conectaDAO().connectDB();
-        
+        Connection conn = new conectaDAO().connectDB();
+        PreparedStatement prep = null;
+
         try {
             String sql = "UPDATE produtos SET status = 'Vendido' WHERE id = ?";
             prep = conn.prepareStatement(sql);
@@ -89,5 +90,39 @@ public class ProdutosDAO {
                 e.printStackTrace();
             }
         }
+    }
+
+    // LISTAR APENAS PRODUTOS VENDIDOS
+    public ArrayList<ProdutosDTO> listarProdutosVendidos() {
+        ArrayList<ProdutosDTO> listagem = new ArrayList<>();
+        Connection conn = new conectaDAO().connectDB();
+        PreparedStatement prep = null;
+        ResultSet resultset = null;
+
+        try {
+            String sql = "SELECT id, nome, valor, status FROM produtos WHERE status = 'Vendido'";
+            prep = conn.prepareStatement(sql);
+            resultset = prep.executeQuery();
+
+            while (resultset.next()) {
+                ProdutosDTO produto = new ProdutosDTO();
+                produto.setId(resultset.getInt("id"));
+                produto.setNome(resultset.getString("nome"));
+                produto.setValor(resultset.getInt("valor"));
+                produto.setStatus(resultset.getString("status"));
+                listagem.add(produto);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao listar vendidos: " + e.getMessage());
+        } finally {
+            try {
+                if (resultset != null) resultset.close();
+                if (prep != null) prep.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return listagem;
     }
 }
